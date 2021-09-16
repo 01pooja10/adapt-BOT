@@ -1,15 +1,19 @@
-from chatbot import preprocess_data,BotData,hyperparams
 import json
 from torch.utils.data import DataLoader,Dataset
 import torch.nn as nn
 import torch
 from torch.cuda.amp import autocast, GradScaler
-from model import BotModel, prune_func
+from data import preprocess_data,BotData
+from lstm import BotModel, prune_func
+from hyperparams import hyperparams
 import time
 
-path=r'C:\Users\Pooja\Documents\.py_files\ausm_intents.json'
+#path=r'C:\Users\Pooja\Documents\.py_files\ausm_intents.json'
+path = input("Enter path to dataset: ")
+
 with open(path,'rb') as f:
     data=json.load(f,strict=False)
+
 xtrain, ytrain, words, labels = preprocess_data(data)
 input_size, output_size, num_layers, hidden_size, learning_rate = hyperparams(xtrain,ytrain)
 
